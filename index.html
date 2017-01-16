@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>Network | Circular images</title>
+
+  <script type="text/javascript" src="./styles/lib/vis-dist/vis.js"></script>
+  <link href="./styles/lib/vis-dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <link href="./styles/css/circularImages.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="./data/nodes.js"></script>
+  <script type="text/javascript" src="./data/edges.js"></script>
+
+  <script type="text/javascript"> 
+    // Called when the Visualization API is loaded.
+    nodes.forEach((node)=>{
+    	node.shape = 'circularImage';
+    });
+    
+    function draw() {
+      // create a network
+      var container = document.getElementById('info-net');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+        nodes: {
+          borderWidth:4,
+          size:30,
+	      color: {
+            border: '#222222',
+            background: '#666666'
+          },
+          font:{color:'#eeeeee'}
+        },
+        edges: {
+          color: 'lightgray'
+        }
+      };
+      var network = new vis.Network(container, data, options);
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+
+<div id="info-net"></div>
+</body>
+</html>

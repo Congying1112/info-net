@@ -1,0 +1,9 @@
+body {
+  font: 10pt arial;
+}
+#info-net {
+  width: 800px;
+  height: 800px;
+  border: 1px solid lightgray;
+  background-color:#333333;
+}
