@@ -1,18 +1,50 @@
 <!doctype html>
 <html>
 <head>
-  <title>Network | Circular images</title>
-
+  <title>InfoNet</title>
+  <meta charset="utf-8">
   <script type="text/javascript" src="./styles/lib/vis-dist/vis.js"></script>
   <link href="./styles/lib/vis-dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <script src="./styles/js/jquery.min.js"></script>
+  <link href="./styles/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./styles/css/buttons.css" rel="stylesheet">
+
   <link href="./styles/css/circularImages.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="./data/nodes.js"></script>
-  <script type="text/javascript" src="./data/edges.js"></script>
+
+  <script type="text/javascript" src="./data/links.js"></script>
 
   <script type="text/javascript"> 
-    // Called when the Visualization API is loaded.
+    function update_id_related(key, edge){
+      if (nodes_by_name[edge[key]] != undefined) {
+        if (nodes_by_name[edge[key]].id == undefined) {
+          nodes_by_name[edge[key]].id = node_id;
+          node_id++;
+        }
+      } else {
+        nodes_by_name[edge[key]] = {
+          id: node_id,
+          image: "./not-exist.png"
+        }
+        node_id++;
+      }
+      edge[key] = nodes_by_name[edge[key]].id;
+    };
+
+    var node_id = 1;
+    edges.forEach((edge)=>{
+      update_id_related("from", edge);
+      update_id_related("to", edge);
+    });
+
+    var nodes = [];
+    for (var name in nodes_by_name) {
+      nodes_by_name[name].name = name
+      nodes.push(nodes_by_name[name])
+    }
     nodes.forEach((node)=>{
+      node.label = node.name
     	node.shape = 'circularImage';
+      node.brokenImage = './styles/images/default-avatar.png';
     });
     
     function draw() {
@@ -24,8 +56,8 @@
       };
       var options = {
         nodes: {
-          borderWidth:4,
-          size:30,
+          // borderWidth:4,
+          size: 30,
 	      color: {
             border: '#222222',
             background: '#666666'
@@ -42,7 +74,21 @@
 </head>
 
 <body onload="draw()">
-
-<div id="info-net"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-sm-10">
+      <div id="info-net"></div>
+    </div>
+    <div class="col-lg-2 col-sm-2">
+      <br>
+      <input type="text" name="new-from" placeholder="From">
+      <input type="text" name="new-to" placeholder="To">
+      <input type="text" name="new-key" placeholder="Key">
+      <input type="text" name="new-url" placeholder="Url">
+      <br>
+      <button onclick="" class="button button--ujarak button--border-thin button--round-s"><span>Add</span></button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
